@@ -2,8 +2,6 @@
 
 # The `did:nda` Method Specification
 
-**Status**: Implementer’s Draft / 0.1.1
-
 **This document defines the `did:nda` DID Method**, conforming to W3C DID Core and DID Resolution specifications.
 
 ---
