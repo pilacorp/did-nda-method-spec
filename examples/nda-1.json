@@ -1,0 +1,22 @@
+{
+  "@context": [
+    "[https://www.w3.org/ns/did/v1](https://www.w3.org/ns/did/v1)",
+    "[https://w3id.org/security/v1](https://w3id.org/security/v1)"
+  ],
+  "id": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828",
+  "controller": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828",
+  "verificationMethod": [
+    {
+      "id": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1",
+      "type": "EcdsaSecp256k1VerificationKey2019",
+      "controller": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828",
+      "publicKeyHex": "04abf141154b386b0203f7e0e7a1c4e7f805f833b9b3e1f0e8f0c3d8e5f0a2a1a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c"
+    }
+  ],
+  "authentication": [
+    "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1"
+  ],
+  "assertionMethod": [
+    "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1"
+  ]
+}
