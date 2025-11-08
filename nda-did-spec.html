@@ -150,7 +150,7 @@
 
 <p>The <code>did:nda</code> method identifies subjects (humans, organizations, or items) in the <strong>Verifiable Data Registry (VDR)</strong> powered by the <strong>NDA Chain blockchain</strong>. It is a hybrid architecture designed to provide secure, verifiable, and portable digital identities.</p>
 
-<p>This system follows W3C DID standards, leveraging the NDA Chain for immutable record-keeping of minimal data (like public key references) while storing richer DID Documents off-chain. This hybrid approach balances decentralization with practical governance and scalability.</p>
+<p>This system follows W3C DID standards, leveraging the NDA Chain's on-chain smart contract to certify the issuance of the DID on the NDAChain blockchain network. The Verifiable Data Registry (VDR) acts as the trusted off-chain storage for richer DID Documents. This hybrid approach balances decentralization with practical governance and scalability.</p>
 
 <p>Resolution is handled by a dedicated resolver service, ensuring that DID Documents are retrievable without querying the blockchain directly for all data, which enhances privacy and efficiency.</p>
 
@@ -187,7 +187,7 @@ DIGIT                = %x30-39</code></pre>
 
 <h3>Create (Register)</h3>
 
-<p>A <code>did:nda</code> is implicitly created when a user generates a new key pair (a private key and its corresponding public address) on the NDA Chain. The DID is the address itself, prefixed by <code>did:nda:</code>. No explicit "registration" transaction is required to <em>create</em> the identifier, as it is self-sovereign. The DID Document associated with it is generated and published to the VDR via the Resolver API when the DID is first used or resolved.</p>
+<p>A <code>did:nda</code> is implicitly created when a user generates a new key pair (a private key and its corresponding public, address) compatible with the NDA Chain. This key pair generation is performed entirely off-chain. The DID is that address (the address generated from the public key of the corresponding key pair), prefixed by <code>did:nda:</code>.</br> The issuance of the DID will be certified by the NDAChain blockchain network through the publishing of a DID registration transaction. This transaction must be signed by the DID's own private key, proving immediate control over the DID identifier. This transaction simultaneously anchors the DID's off-chain pointer to the chain. The DID Document associated with it is generated and published to the VDR via the Resolver API when the DID is first used or resolved.</p>
 
 <h3>Read (Resolve)</h3>
 
