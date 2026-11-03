@@ -107,6 +107,13 @@ The document includes multiple contexts:
 * `https://www.w3.org/ns/did/v1` (DID Core v1.0)
 * `https://w3id.org/security/v1` (Security & Cryptography Standards)
 
+### Verification Methods
+
+The `did:nda` method supports the following verification methods:
+
+* **EcdsaSecp256k1VerificationKey2019**: An ECDSA public key using the secp256k1 curve. The public key is encoded in the `publicKeyHex` property.
+* **Multikey**: A multicodec-based verification method that supports multibase-encoded public keys. The public key is encoded in the `publicKeyMultibase` property.
+
 ### Example DID Document
 
 ```json

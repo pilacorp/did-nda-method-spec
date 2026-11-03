@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="DID:NDA Method Specification for the NDA Chain Verifiable Data Registry">
-  <title>The did:nda Method Specification - NDAChain</title>
+  <meta name="description" content="DID:NDC Method Specification for the NDA Chain Verifiable Data Registry">
+  <title>The did:ndc Method Specification - NDAChain</title>
   <style>
     /* Base styles */
     :root {
@@ -311,7 +311,7 @@
     <div class="container">
       <img src="https://s3-sgn10.fptcloud.com/cdn/logo/ndachain-full-logo.png" alt="NDA Chain Logo" class="header-logo"
         width="280" height="auto">
-      <h1>The <code class="header-code">did:nda</code> Method Specification</h1>
+      <h1>The <code class="header-code">did:ndc</code> Method Specification</h1>
       <p class="subtitle">A W3C DID Method for the NDA Chain Verifiable Data Registry</p>
     </div>
   </header>
@@ -321,7 +321,7 @@
 
       <h2>1. Introduction</h2>
 
-      <p>The <code>did:nda</code> method identifies subjects (humans, organizations, or items) in the <strong>Verifiable
+      <p>The <code>did:ndc</code> method identifies subjects (People, item, location, activity) in the <strong>Verifiable
           Data Registry (VDR)</strong> powered by the <strong>NDA Chain blockchain</strong>. It is a hybrid architecture
         designed to provide secure, verifiable, and portable digital identities.</p>
 
@@ -335,39 +335,39 @@
 
       <h2>2. DID Method Name</h2>
 
-      <p>The registered method is <code>nda</code>.</p>
+      <p>The registered method is <code>ndc</code>.</p>
 
       <p>A valid DID starts with:</p>
 
-      <pre><code>did:nda:</code></pre>
+      <pre><code>did:ndc:</code></pre>
 
       <h2>3. DID Syntax</h2>
 
-      <p>A <code>did:nda</code> DID is formed by the method prefix and a unique identifier derived from an NDA Chain
+      <p>A <code>did:ndc</code> DID is formed by the method prefix and a unique identifier derived from an NDA Chain
         blockchain address.</p>
 
       <h3>Regex:</h3>
 
-      <pre><code>^did:nda:0x[0-9a-fA-F]{40}$</code></pre>
+      <pre><code>^did:ndc:0x[0-9a-fA-F]{40}$</code></pre>
 
       <h3>ABNF:</h3>
 
-      <pre><code>did-nda              = "did:nda:" method-specific-id
+      <pre><code>did-ndc              = "did:ndc:" method-specific-id
 method-specific-id   = "0x" 40*HEXDIG
 HEXDIG               = DIGIT / "a" / "b" / "c" / "d" / "e" / "f" / "A" / "B" / "C" / "D" / "E" / "F"
 DIGIT                = %x30-39</code></pre>
 
       <h2>4. Method Operations (CRUD)</h2>
 
-      <p>This method supports <strong>Create</strong>, <strong>Read</strong>, and <strong>Update</strong> operations.</p>
+      <p>This method supports <strong>Create</strong>, <strong>Read</strong>, <strong>Update</strong> and <strong>Deactivate</strong> operations.</p>
 
       <h3>Create (Register)</h3>
 
-      <p>The creation of a <code>did:nda</code> Decentralized Identifier involves two phases: <br/> First - generating the
+      <p>The creation of a <code>did:ndc</code> Decentralized Identifier involves two phases: <br/> First - generating the
         identifier and the initial document off-chain, <br/> Second - registering the DID on the NDAChain.</p>
 
       <h4>Phase 1: Off-Chain Generation (Identifier & Document)</h4>
-      <p>A <code>did:nda</code> is implicitly created when a user generates a new ECDSA secp256k1 key pair. This process
+      <p>A <code>did:ndc</code> is implicitly created when a user generates a new ECDSA secp256k1 key pair. This process
         is performed entirely off-chain. The DID identifier is derived deterministically from the public key using
         standard Ethereum address generation logic.</p>
 
@@ -381,22 +381,22 @@ DIGIT                = %x30-39</code></pre>
         <li><strong>Address Generation (Encode):</strong> Convert these 20 bytes into a 42-character hexadecimal string.
           This string represents the <strong>Account Address</strong> and <strong>MUST include the <code>0x</code>
             prefix</strong> (e.g., <code>0x3f1a...</code>).</li>
-        <li><strong>Format:</strong> Prepend <code>did:nda:</code> to the Account Address to form the final DID.</li>
+        <li><strong>Format:</strong> Prepend <code>did:ndc:</code> to the Account Address to form the final DID.</li>
       </ol>
 
       <div class="success-box">
         <p><strong>Example:</strong></p>
         <p>
           Account Address: <code>0x3f1a5c2e8b9d7f6a4c1b9e8d7c6b5a49382716f5</code><br>
-          Final DID: <code>did:nda:0x3f1a5c2e8b9d7f6a4c1b9e8d7c6b5a49382716f5</code>
+          Final DID: <code>did:ndc:0x3f1a5c2e8b9d7f6a4c1b9e8d7c6b5a49382716f5</code>
         </p>
       </div>
 
       <p><strong>Document Creation & Storage:</strong><br>
         The DID Document associated with the DID is generated locally. The document supports the
-        <code>EcdsaSecp256k1VerificationKey2019</code> verification method. During the registration process, this
-        Document is published to the Verifiable Data Registry (VDR) via the <strong>Register API</strong>. The Document
-        is then stored in off-chain storage (VDR) and will be fetched from this location when resolving the DID.</p>
+        <code>EcdsaSecp256k1VerificationKey2019</code> verification method. It is stored in the VDR's off-chain
+        database, while the corresponding DID registration information is published to the NDA Chain. When the DID
+        is resolved, the resolver uses this registration information to locate and return the document from the VDR.</p>
 
       <h4>Phase 2: On-Chain Registration</h4>
       <p>The issuance of the DID will be certified by the NDAChain blockchain network through the publishing of a DID
@@ -411,27 +411,26 @@ DIGIT                = %x30-39</code></pre>
 
       <h3>Read (Resolve)</h3>
 
-      <p>A <code>did:nda</code> is resolved by querying the <strong>NDA DID Resolver service</strong>. The resolver
+      <p>A <code>did:ndc</code> is resolved by querying the <strong>NDA DID Resolver service</strong>. The resolver
         fetches the DID Document associated with the DID from its off-chain storage (e.g., application cache, dedicated
         database) and returns it to the client. See Section 6 for resolution details.</p>
 
       <h3>Update (Replace)</h3>
 
       <p>DID Documents <strong>can be updated</strong>. The <code>controller</code> of the DID (who holds the associated
-        private key) can authorize changes to the DID Document, such as rotating keys, adding or removing service
-        endpoints, or modifying authentication methods. Updates are submitted to the DID Resolver service API and must
-        be cryptographically signed by the controller to prove ownership.</p>
+        private key) can authorize changes to the DID Document, such as rotating verification keys, adding new keys,
+        removing or revoking old keys, adding or removing service endpoints, or modifying <code>authentication</code>
+        and <code>assertionMethod</code> relationships. Updates are submitted to the NDA DID Resolver service API and
+        must be cryptographically signed by the controller to prove ownership.</p>
 
       <h3>Deactivate (Revoke)</h3>
 
-      <p>Deactivation is achieved by performing an <strong>Update</strong> operation. The controller updates the DID
-        Document to remove or revoke all <code>verificationMethod</code> and <code>service</code> entries. A DID
-        Document can also be updated to point its <code>controller</code> to a "null" or un-ownable DID, effectively
-        orphaning it.</p>
+      <p>Deactivation is achieved by revoking the DID. The controller updates the DID Document to remove or revoke all
+        <code>verificationMethod</code> and <code>service</code> entries. A deactivated DID cannot be reactivated.</p>
 
       <h2>5. Method-Specific Identifiers</h2>
 
-      <p>The <code>did:nda</code> method-specific identifier is a <strong>blockchain address</strong> from the NDA
+      <p>The <code>did:ndc</code> method-specific identifier is a <strong>blockchain address</strong> from the NDA
         Chain.</p>
 
       <ul>
@@ -440,7 +439,7 @@ DIGIT                = %x30-39</code></pre>
         <li><strong>Length</strong>: 42 characters total (<code>0x</code> prefix + 40 hexadecimal characters).</li>
         <li><strong>Collision management</strong>: Uniqueness is guaranteed by the underlying blockchain's cryptographic
           address generation process.</li>
-        <li><strong>Example</strong>: <code>did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828</code></li>
+        <li><strong>Example</strong>: <code>did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828</code></li>
       </ul>
 
       <h2>6. DID Resolution</h2>
@@ -449,11 +448,11 @@ DIGIT                = %x30-39</code></pre>
 
       <h3>Reference Endpoint:</h3>
 
-      <pre><code>GET https://resolver.ndadid.vn/1.0/identifiers/{did}</code></pre>
+      <pre><code>GET https://resolver.ndcdid.vn/1.0/identifiers/{did}</code></pre>
 
       <h3>Example Request:</h3>
 
-      <pre><code>GET https://resolver.ndadid.vn/1.0/identifiers/did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828</code></pre>
+      <pre><code>GET https://resolver.ndcdid.vn/1.0/identifiers/did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828</code></pre>
 
       <p><strong>Response</strong>: On success, the service returns a <code>200 OK</code> with the DID Document (in
         <code>application/ld+json</code> format) as the response body.</p>
@@ -467,7 +466,7 @@ DIGIT                = %x30-39</code></pre>
 
       <h2>7. DID Document</h2>
 
-      <p>When a <code>did:nda</code> is resolved, the resulting DID Document is a JSON-LD object that conforms to the <a
+      <p>When a <code>did:ndc</code> is resolved, the resulting DID Document is a JSON-LD object that conforms to the <a
           href="https://www.w3.org/TR/did-core/" target="_blank">W3C DID Core v1.0</a> specification.</p>
 
       <p>The document includes multiple contexts:</p>
@@ -475,6 +474,16 @@ DIGIT                = %x30-39</code></pre>
       <ul>
         <li><code>https://www.w3.org/ns/did/v1</code> (DID Core v1.0)</li>
         <li><code>https://w3id.org/security/v1</code> (Security & Cryptography Standards)</li>
+        <li><code>https://www.w3.org/ns/cid/v1</code> (Content Integrity Data Model)</li>
+      </ul>
+
+      <h3>Verification Methods</h3>
+      <p>The <code>did:ndc</code> method supports the following verification methods:</p>
+      <ul>
+        <li><strong>EcdsaSecp256k1VerificationKey2019</strong>: An ECDSA public key using the secp256k1 curve. The
+          public key is encoded in the <code>publicKeyHex</code> property.</li>
+        <li><strong>Multikey</strong>: A multicodec-based verification method that supports multibase-encoded public
+          keys. The public key is encoded in the <code>publicKeyMultibase</code> property.</li>
       </ul>
 
       <h3>Example DID Document</h3>
@@ -482,23 +491,31 @@ DIGIT                = %x30-39</code></pre>
       <pre><code>{
   "@context": [
     "https://www.w3.org/ns/did/v1",
-    "https://w3id.org/security/v1"
+    "https://w3id.org/security/v1",
+    "https://www.w3.org/ns/cid/v1"
   ],
-  "id": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828",
-  "controller": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828",
+  "id": "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828",
+  "controller": "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828",
   "verificationMethod": [
     {
-      "id": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1",
+      "id": "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1",
       "type": "EcdsaSecp256k1VerificationKey2019",
-      "controller": "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828",
+      "controller": "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828",
       "publicKeyHex": "04abf141154b386b0203f7e0e7a1c4e7f805f833b9b3e1f0e8f0c3d8e5f0a2a1a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c"
+    },
+    {
+      "id": "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-2",
+      "type": "Multikey",
+      "controller": "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828",
+      "publicKeyMultibase": "zQ3shokFTS3brHcDQrn82RUDfCZESWL1ZdCEJwekUDPQiYBme"
     }
   ],
   "authentication": [
-    "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1"
+    "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1"
   ],
   "assertionMethod": [
-    "did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1"
+    "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-1",
+    "did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828#keys-2"
   ]
 }</code></pre>
 
@@ -519,7 +536,7 @@ DIGIT                = %x30-39</code></pre>
       <h3>Security Considerations</h3>
 
       <ul>
-        <li><strong>Key Management</strong>: The security of the <code>did:nda</code> method is entirely dependent on
+        <li><strong>Key Management</strong>: The security of the <code>did:ndc</code> method is entirely dependent on
           the controller's ability to secure their private key. Private keys should be stored in secure environments,
           such as a Hardware Security Module (HSM) or a device's Secure Element (SE).</li>
         <li><strong>Trust Model</strong>: Trust is rooted in the cryptographic security of the NDA Chain and the
@@ -539,7 +556,7 @@ DIGIT                = %x30-39</code></pre>
         <li><strong>Selective Disclosure</strong>: PII is only ever contained within Verifiable Credentials (VCs), which
           are held by the user (e.g., in a digital wallet) and are never published to the resolver or the blockchain.
           The user presents VCs and can choose which information to disclose (selective disclosure).</li>
-        <li><strong>Pseudonymity</strong>: A <code>did:nda</code> is a pseudonymous identifier. It is not inherently
+        <li><strong>Pseudonymity</strong>: A <code>did:ndc</code> is a pseudonymous identifier. It is not inherently
           linked to a real-world identity unless the holder chooses to link it by, for example, obtaining a VC from an
           issuer that verifies their identity.</li>
       </ul>
@@ -564,8 +581,8 @@ DIGIT                = %x30-39</code></pre>
       <h2>12. Test Vectors</h2>
 
       <ul>
-        <li><strong>Example 1:</strong> <code>did:nda:0xdfc8044a202f08b9c8df2e42f746355575816828</code> → see
-          <code>examples/nda-1.json</code> (This implies a valid DID Document file exists at this path in your
+        <li><strong>Example 1:</strong> <code>did:ndc:0xdfc8044a202f08b9c8df2e42f746355575816828</code> → see
+          <code>examples/ndc-1.json</code> (This implies a valid DID Document file exists at this path in your
           repository).</li>
       </ul>
 
@@ -578,6 +595,8 @@ DIGIT                = %x30-39</code></pre>
             target="_blank">https://www.w3.org/TR/did-resolution/</a></li>
         <li><strong>[W3C Security Vocabulary]</strong>: <a href="https://w3id.org/security/v1"
             target="_blank">https://w3id.org/security/v1</a></li>
+        <li><strong>[W3C Controlled Identifiers and Multikey]</strong>: <a href="https://w3c.github.io/cid/"
+            target="_blank">https://w3c.github.io/cid/</a></li>
         <li><strong>[EcdsaSecp256k1VerificationKey2019]</strong>: <a
             href="https://w3c-ccg.github.io/data-integrity-spec/#EcdsaSecp256k1VerificationKey2019"
             target="_blank">https://w3c-ccg.github.io/data-integrity-spec/#EcdsaSecp256k1VerificationKey2019</a></li>
@@ -587,7 +606,7 @@ DIGIT                = %x30-39</code></pre>
   </main>
 
   <footer>
-    <p>© 2025 Vietnam's National Data Center | DID:NDA Method Specification</p>
+    <p>© 2025 Vietnam's National Data Center | DID:NDC Method Specification</p>
   </footer>
 </body>
 
