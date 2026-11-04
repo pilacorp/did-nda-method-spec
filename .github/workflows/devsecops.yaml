@@ -1,0 +1,16 @@
+name: DevSecOps Pipeline
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  deployments: write
+
+jobs:
+  devsecops:
+    uses: pilacorp/github-action-template/.github/workflows/service.yml@v2
+    secrets: inherit
