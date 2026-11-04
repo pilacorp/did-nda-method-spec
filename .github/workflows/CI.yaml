@@ -27,6 +27,13 @@ jobs:
             echo "VAULT_USERNAME=${{ secrets.VAULT_STAGING_USERNAME }}" >> $GITHUB_ENV
             echo "VAULT_PASSWORD=${{ secrets.VAULT_STAGING_PASSWORD }}" >> $GITHUB_ENV
 
+          elif [[ "${GITHUB_REF##*/}" == "prod" ]]; then
+            echo "REGISTRY_PASS=${{ secrets.ORG_PILA_PROD_PASS }}" >> $GITHUB_ENV
+            echo 'GITOPS_NAMESPACE=prod' >> $GITHUB_ENV
+            echo "VAULT_ADDR=${{ secrets.VAULT_PROD_ADDR }}" >> $GITHUB_ENV
+            echo "VAULT_USERNAME=${{ secrets.VAULT_PROD_USERNAME }}" >> $GITHUB_ENV
+            echo "VAULT_PASSWORD=${{ secrets.VAULT_PROD_PASSWORD }}" >> $GITHUB_ENV
+
           else
             echo "REGISTRY_PASS=${{ secrets.ORG_PILA_DEV_PASS }}" >> $GITHUB_ENV
             echo 'GITOPS_NAMESPACE=dev' >> $GITHUB_ENV
