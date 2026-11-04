@@ -4,13 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: ["dev", "prod"]
-    paths:
-      - '*.html'
-      - '*.css'
-      - '*.md'
-      - 'examples/**'
-      - 'Dockerfile'
-      - 'nginx.conf'
 env:
   APP_NAME: ndadid-method-spec
   APP_TAG: ${{ github.sha }}-${{ github.run_number }}
@@ -27,12 +20,12 @@ jobs:
 
       - name: Set dynamic env for branch
         run: |
-          if [[ "${GITHUB_REF##*/}" == "prod" ]]; then
-            echo "REGISTRY_PASS=${{ secrets.ORG_PILA_PROD_PASS }}" >> $GITHUB_ENV
-            echo 'GITOPS_NAMESPACE=prod' >> $GITHUB_ENV
-            echo "VAULT_ADDR=${{ secrets.VAULT_PROD_ADDR }}" >> $GITHUB_ENV
-            echo "VAULT_USERNAME=${{ secrets.VAULT_PROD_USERNAME }}" >> $GITHUB_ENV
-            echo "VAULT_PASSWORD=${{ secrets.VAULT_PROD_PASSWORD }}" >> $GITHUB_ENV
+          if [[ "${GITHUB_REF##*/}" == "staging" ]]; then
+            echo "REGISTRY_PASS=${{ secrets.ORG_PILA_STAGING_PASS }}" >> $GITHUB_ENV
+            echo 'GITOPS_NAMESPACE=staging' >> $GITHUB_ENV
+            echo "VAULT_ADDR=${{ secrets.VAULT_STAGING_ADDR }}" >> $GITHUB_ENV
+            echo "VAULT_USERNAME=${{ secrets.VAULT_STAGING_USERNAME }}" >> $GITHUB_ENV
+            echo "VAULT_PASSWORD=${{ secrets.VAULT_STAGING_PASSWORD }}" >> $GITHUB_ENV
 
           else
             echo "REGISTRY_PASS=${{ secrets.ORG_PILA_DEV_PASS }}" >> $GITHUB_ENV
