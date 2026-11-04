@@ -1,10 +1,13 @@
-# did:nda Method Specification
+# DID Method Specifications
 
-This repository contains the official specification for the `did:nda` Decentralized Identifier (DID) Method.
+This repository contains the specifications for the `did:nda` and `did:ndc` Decentralized Identifier (DID) methods.
 
-- **Specification file:** [spec.md](./spec.md)
-- **Status:** Provisional (Implementer’s Draft)
-- **Registry entry:** Pending submission to the [W3C DID Method Registry](https://github.com/w3c/did-extensions)
+## Published pages
+
+- **did:nda:** [https://did-specs.ndachain.vn/](https://did-specs.ndachain.vn/) — source: [nda/spec.md](./nda/spec.md)
+- **did:ndc:** [https://did-specs.ndachain.vn/ndc/](https://did-specs.ndachain.vn/ndc/) — source: [ndc/spec.md](./ndc/spec.md)
+
+Both specifications are served from the same Docker/Nginx image. The root URL remains the registered `did:nda` URL, while `did:ndc` is served under `/ndc/`.
 
 ## About
 
@@ -20,9 +23,13 @@ did:nda:0x<40-hex-address>[_ISS|_SP|_HOLDER]
 
 ## Test Vectors
 
-See [examples/](./examples/) for valid DID Documents:
+See [nda/examples/](./nda/examples/) for valid DID Documents:
 
-- [nda-1.json](./examples/nda-1.json) 
+- [nda-1.json](./nda/examples/nda-1.json)
+
+See [ndc/examples/](./ndc/examples/) for `did:ndc` examples:
+
+- [ndc-1.json](./ndc/examples/ndc-1.json)
 
 ---
 
@@ -30,12 +37,7 @@ See [examples/](./examples/) for valid DID Documents:
 
 - **Authority**: The **NDA Chain** and the associated **Verifiable Data Registry (VDR)** are maintained by **Vietnam’s National Data Center**.
 - **Maintainer**: The resolution service (`resolver.ndadid.vn`) is operated and maintained by **Vietnam’s National Data Center**.
-- **Process to obtain a DID**:
-
-  1. Generate an **ECDSA Secp256k1** key pair (via wallet or custodial QTSP).
-  2. Derive the Ethereum-compatible address.
-  3. Publish the initial **DID Document** to the VDR via `https://resolver.ndadid.vn/1.0/identifiers` with a signed payload.
-  4. Anchor the document hash on **NDA Chain** for immutability.
+- **Process to obtain a DID**: Generate a key pair, create the DID Document locally, store it in the VDR's off-chain storage, and publish the corresponding registration information to NDA Chain.
 - **Contact**: contact@ndachain.vn
 - **Specification versioning**: [Semantic Versioning](https://semver.org/)
 - **Change management**: Issues and pull requests in this repository
